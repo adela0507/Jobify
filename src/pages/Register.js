@@ -10,14 +10,14 @@ const initialState={
   name:'',
   email:'',
   password:'',
-  isMember:true,
+  isMember:false,
 }
 
 
 const Register = () => {
   const[value,setValue]=useState(initialState);
   const navigate=useNavigate();
-  const {user,showAlert,isLoading,displayAlert,registerUser}=useAppContext();
+  const {user,showAlert,isLoading,displayAlert,registerUser,loginUser}=useAppContext();
   const toggleMember=()=>{
     setValue({...value, isMember: !value.isMember})
   }
@@ -36,10 +36,10 @@ const Register = () => {
     }
     const currentUser={email,name,password}
     if(isMember){
-      console.log('E MEMBRU');
+      loginUser(currentUser);
     }
     else{
-      console.log(currentUser);
+     registerUser(currentUser);
     }
     console.log(value);
 }
