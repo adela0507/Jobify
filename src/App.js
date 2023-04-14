@@ -9,17 +9,17 @@ function App() {
     <ProtectedRoute>
       <SharedLayout/>
       </ProtectedRoute>} >
-        <Route path="stats" element={<Stats/>} />
+        <Route index element={<Stats/>} />
         <Route path="all-jobs" element={<AllJobs/>} />
         <Route path="add-jobs" element={<AddJob/>} />
         <Route path="profile" element={<Profile/>} />
-    </Route>
+    </Route> 
     <Route path="/register" element={<Register/>} />
     <Route path="/landing" element={<Landing/>} />
     <Route path="*" element={<Error/>} />
   </Routes>
   </BrowserRouter>
-  
+  // index=ala ne deschide ca home
 }
 
 export default App;

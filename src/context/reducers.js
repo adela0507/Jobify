@@ -1,4 +1,5 @@
-import { DISPLAY_ALERT,CLEAR_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_ERROR,REGISTER_USER_SUCCESS,LOGIN_USER_BEGIN,LOGIN_USER_ERROR,LOGIN_USER_SUCCESS } from "./actions";
+import {LOGOUT_USER,TOGGLE_SIDEBAR, DISPLAY_ALERT,CLEAR_ALERT,REGISTER_USER_BEGIN,REGISTER_USER_ERROR,REGISTER_USER_SUCCESS,LOGIN_USER_BEGIN,LOGIN_USER_ERROR,LOGIN_USER_SUCCESS } from "./actions";
+import { initialState } from "./appContext";
 
 const reducer=(state,action)=>{
     if(action.type===DISPLAY_ALERT)
@@ -77,6 +78,22 @@ const reducer=(state,action)=>{
             showAlert:true,
             alertType:'danger',
             alertText:action.payload.msg,
+        }
+    }
+    if(action.type===TOGGLE_SIDEBAR)
+    {
+        return{
+            ...state,
+            showSidebar:!state.showSidebar,
+        }
+    }
+    if(action.type===LOGOUT_USER){
+        return {
+            ...initialState,
+            user:null,
+            token:null,
+            jobLocation:'',
+            location:'',
         }
     }
     throw new Error(`no such action:${action.type}`)

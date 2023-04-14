@@ -2,7 +2,7 @@ import React from 'react'
 import { useState,useEffect } from 'react'
 import {useNavigate} from 'react-router-dom'
 import{Logo,FormRow,Alert} from '../components'
-import Wrapper from '../assets/wrappers/ErrorPage'
+import Wrapper from '../assets/wrappers/RegisterPage'
 import { useAppContext } from '../context/appContext'
 
 
@@ -47,7 +47,7 @@ useEffect(()=>{
 if(user){
   setTimeout(()=>{
   navigate('/')
-  },3000)
+  },30000)
 }
 },[user,navigate])
 
