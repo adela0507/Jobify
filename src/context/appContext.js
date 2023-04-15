@@ -11,7 +11,10 @@ import { DISPLAY_ALERT,
     LOGIN_USER_ERROR,
     LOGIN_USER_SUCCESS, 
     TOGGLE_SIDEBAR,
-    LOGOUT_USER
+    LOGOUT_USER, 
+    UPDATE_USER_BEGIN,
+    UPDATE_USER_ERROR,
+    UPDATE_USER_SUCCESS,
  } from './actions';
 
 const token=localStorage.getItem('token')
@@ -43,7 +46,7 @@ const authFetch=axios.create({
 })
 //request
 authFetch.interceptors.request.use((config)=>{
-    // config.headers['Authorization']=`Bearer ${state.token}`
+     config.headers['Authorization']=`Bearer ${state.token}`
     return config;
 },
 
@@ -58,8 +61,8 @@ authFetch.interceptors.response.use((response)=>{
 
 (error)=>{
     if(error.response.status===401){
-        console.log('áuth error');
-    }
+        logoutUser()
+        }
     return Promise.reject(error)
 })
 
@@ -130,13 +133,22 @@ dispatch({type:LOGOUT_USER})
 removeUserFromLocalStorage()
 }
 const updateUser=async(currentUser)=>{
+    dispatch({type:UPDATE_USER_BEGIN})
     try {
-        const {data}=await authFetch.patch('/auth/updateUser',
-        currentUser,)
-        console.log(data);
+        const {data}=await authFetch.patch('/auth/updateUser',currentUser,)
+
+        const{user,location,token}=data
+         dispatch({type:UPDATE_USER_SUCCESS,
+        payload:{user,token,location}
+    })
+    addUserToLocalStorage({user,token,location})
     } catch (error) {
-        console.log(error.response);
+        if(error.response.status !==401){
+ dispatch({type:UPDATE_USER_ERROR, 
+            payload:{msg:error.response.data.msg}})
+        }
     }
+    clearAlert()
 }
     return(
 <AppContext.Provider 
