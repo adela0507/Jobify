@@ -24,6 +24,7 @@ import { DISPLAY_ALERT,
     GET_JOB_SUCCESS,
 
  } from './actions';
+import { useEffect } from 'react';
 
 const token=localStorage.getItem('token')
 const user=localStorage.getItem('user')
@@ -47,6 +48,10 @@ const initialState={
     statusOptions:['ínterview','declined','pending'],
     status:'pending',
     showSidebar:false,
+    jobs:[],
+    totalJobs:0,
+    numOfPages:1,
+    page:1,
 }
 
 
@@ -196,11 +201,11 @@ const createJob=async ()=>{
 const getJobs=async ()=>{
     let url=`/jobs`
 
-    dispatch({type:GET_JOB_SUCCESS})
+    dispatch({type:GET_JOB_BEGIN})
     try {
         const {data}=await authFetch(url);
         const{jobs,totalJobs,numOfPages}=data
-        dispatch({type:GET_JOB_BEGIN,
+        dispatch({type:GET_JOB_SUCCESS,
             payload:{
                 jobs,
                 totalJobs,
@@ -209,8 +214,12 @@ const getJobs=async ()=>{
             })
     } catch (error) {
         console.log(error.response);
+        logoutUser()
     }
+
+    clearAlert()
 }
+
 
     return(
 <AppContext.Provider 
@@ -223,7 +232,9 @@ value={{...state,
     displayAlert,
     registerUser,
     toggleSidebar,
-    loginUser}}>
+    loginUser,
+    getJobs,
+    }}>
     {children}
 </AppContext.Provider>
     );

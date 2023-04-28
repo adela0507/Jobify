@@ -210,9 +210,9 @@ const reducer=(state,action)=>{
         return{
             ...state,
             isLoading:false,
-            jobs:action.payload.any,
-            totalJobs:action.payload.any,
-            numOfPages:action.payload.any,
+            jobs:action.payload.jobs,
+            totalJobs:action.payload.totalJobs,
+            numOfPages:action.payload.numOfPages,
             showAlert:true,
             alertType:'success',
             alertText:'new job created',
